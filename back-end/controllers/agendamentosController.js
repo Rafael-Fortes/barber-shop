@@ -21,8 +21,8 @@ exports.createAgendamento = async (req, res) => {
     if (error) {
       return res.status(400).send({ error: error.details[0].message });
     }
-    const agendamento = await agendamentosService.createAgendamento(req.body);
-    res.status(201).send(agendamento);
+    await agendamentosService.createAgendamento(req.body);
+    res.status(201).send({ message: "Agendamento criado com sucesso"});
   } catch (error) {
     res.status(500).send({ error: 'Erro ao criar agendamento' });
   }
@@ -39,7 +39,7 @@ exports.updateAgendamento = async (req, res) => {
     if (!agendamento) {
       return res.status(404).send({ error: 'Agendamento não encontrado' });
     }
-    res.send(agendamento);
+    return res.status(200).send({ message: 'Agendamento atualizado com sucesso' });
   } catch (error) {
     res.status(500).send({ error: 'Erro ao atualizar agendamento' });
   }
