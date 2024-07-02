@@ -3,8 +3,10 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const serviceAccount = require(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+const serviceAccount = require("./chaves/serviceAccountKey.json");
 
-admin.initializeApp(serviceAccount);
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 module.exports = admin;
