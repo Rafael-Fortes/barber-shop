@@ -54,6 +54,17 @@ app.delete('/agendamentos/:id', async (req, res) => {
   }
 });
 
+// Criar um agendamento
+app.post('/agendamentos', async (req, res) => {
+  const data = req.body;
+  try {
+    const doc = await agendamentosRef.add(data);
+    res.status(201).send(doc.id);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
