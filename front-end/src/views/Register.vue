@@ -6,9 +6,8 @@
     <input id="password" type="password" placeholder="Senha" label="Senha" v-model="password" autocomplete="new-password" required>
     <br>
     <button @click="register">Cadastrar</button>
-    <p>Já possui conta? <router-link to="/login">Clique aqui para logar</router-link></p>
+    <p>Já possui conta? <router-link to="/login">Login</router-link></p>
     </br>
-
   </div>
 </template>
 
