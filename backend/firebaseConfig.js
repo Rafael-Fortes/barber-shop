@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const serviceAccount = require("./chaves/serviceAccountKey.json");
+const serviceAccount = require("./keys/serviceAccountKey.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
