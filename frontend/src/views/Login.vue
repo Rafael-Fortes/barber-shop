@@ -25,7 +25,7 @@ export default {
     login() {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         .then(() => {
-          this.$router.push('/agendar')
+          this.$router.push('/listar')
         })
         .catch((error) => {
           alert('Credenciais inválidas');

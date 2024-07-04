@@ -27,6 +27,9 @@
         </tr>
       </tbody>
     </table>
+    <div class="button-container">
+      <button @click="novoAgendamento">Novo agendamento</button>
+    </div>
   </div>
 </template>
 
@@ -52,14 +55,13 @@ export default {
     },
 
     excluirAgendamento(id) {
-      axios.delete(`http://localhost:3000/api/agendamentos/${id}`, {
-      })
-      .then(response => {
-        return response.data;
-      })
-      .catch(error => {
-        console.error('Erro:', error);
-      });
+      axios.delete(`http://localhost:3000/api/agendamentos/${id}`)
+        .then(response => {
+          this.carregarAgendamentos(); // Recarrega os agendamentos após excluir
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+        });
     },
 
     async carregarAgendamentos() {
@@ -69,6 +71,10 @@ export default {
       } catch(error)  {
         alert('Erro ao carregar agendamentos: ' + error.message);
       }
+    },
+
+    novoAgendamento() {
+      this.$router.push({ name: 'Agendar' });
     }
   }
 };
@@ -110,11 +116,32 @@ th {
 tr:nth-child(even) {
   background-color: #f9f9f9;
 }
+
 .icon-edit {
   margin-right: 15px;
 }
 
 .icon-delete {
-  color:red;
+  color: red;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background-color: #00695c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 </style>
