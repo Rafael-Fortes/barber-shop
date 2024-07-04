@@ -21,8 +21,9 @@ exports.createAgendamento = async (req, res) => {
     if (error) {
       return res.status(400).send({ error: error.details[0].message });
     }
-    const { dataAgendamento } = req.body;
-    const agendamentoExistente = await agendamentosService.findAgendamentoByData(dataAgendamento);
+    const data = req.body.data;
+    const barbeiro  = req.body.barbeiro;
+    const agendamentoExistente = await agendamentosService.findAgendamentoByDataEBarbeiro(data, barbeiro);
     if (agendamentoExistente) {
       return res.status(400).send({ error: 'Já existe um agendamento para esta data' });
     }

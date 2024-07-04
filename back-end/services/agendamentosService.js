@@ -57,11 +57,11 @@ exports.deleteAgendamento = async (id) => {
   }
 };
 
-exports.findAgendamentoByDataEBarbeiro = async (dataAgendamento, nomeBarbeiro) => {
+exports.findAgendamentoByDataEBarbeiro = async (data, barbeiro) => {
   try {
     const snapshot = await agendamentosRef
-      .where('dataAgendamento', '==', dataAgendamento)
-      .where('nomeBarbeiro', '==', nomeBarbeiro)
+      .where('data', '==', data)
+      .where('barbeiro', '==', barbeiro)
       .get();
 
     if (snapshot.empty) {
