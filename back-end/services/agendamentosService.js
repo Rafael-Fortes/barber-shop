@@ -56,3 +56,20 @@ exports.deleteAgendamento = async (id) => {
     return error;
   }
 };
+
+exports.findAgendamentoByDataEBarbeiro = async (dataAgendamento, nomeBarbeiro) => {
+  try {
+    const snapshot = await agendamentosRef
+      .where('dataAgendamento', '==', dataAgendamento)
+      .where('nomeBarbeiro', '==', nomeBarbeiro)
+      .get();
+
+    if (snapshot.empty) {
+      return null;
+    }
+    return snapshot.docs[0].data();
+  } catch (error) {
+    console.error('Erro ao buscar agendamento por data e barbeiro:', error);
+    throw error;
+  }
+}
