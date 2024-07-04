@@ -75,6 +75,7 @@ export default {
       .then(response => {
         // Manipular a resposta da API
         console.log("aqui: ", response.data);
+        this.$router.push('/listar')
         return response.data;
       })
       .catch(error => {
