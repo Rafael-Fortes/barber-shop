@@ -1,46 +1,32 @@
 <template>
-  <div class="agendar">
-    <h1>Agendar</h1>
-    <form @submit.prevent="submitForm">
+  <div class="editar">
+    <h1>Editar Agendamento</h1>
+    <form @submit.prevent="atualizarAgendamento">
       <div>
         <label for="clientName">Nome do cliente</label>
-        <input
-          type="text"
-          id="clientName"
-          v-model="form.clientName"
-          required
-        />
+        <input type="text" id="clientName" v-model="agendamento.clientName" required />
       </div>
 
       <div>
         <label for="datetime">Selecione uma data</label>
-        <input
-          type="datetime-local"
-          id="datetime"
-          v-model="form.datetime"
-          required
-        />
+        <input type="datetime-local" id="datetime" v-model="agendamento.datetime" required />
       </div>
 
       <div>
         <label for="service">Selecione um serviço</label>
-        <select id="service" v-model="form.service" required>
-          <option v-for="service in services" :key="service" :value="service">
-            {{ service }}
-          </option>
+        <select id="service" v-model="agendamento.service" required>
+          <option v-for="service in services" :key="service" :value="service">{{ service }}</option>
         </select>
       </div>
 
       <div>
         <label for="barber">Selecione um barbeiro</label>
-        <select id="barber" v-model="form.barber" required>
-          <option v-for="barber in barbers" :key="barber" :value="barber">
-            {{ barber }}
-          </option>
+        <select id="barber" v-model="agendamento.barber" required>
+          <option v-for="barber in barbers" :key="barber" :value="barber">{{ barber }}</option>
         </select>
       </div>
 
-      <button type="submit">Confirmar Agendamento</button>
+      <button type="submit">Atualizar Agendamento</button>
     </form>
   </div>
 </template>
@@ -48,50 +34,53 @@
 <script>
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+
 export default {
+  props: ['id'],
   data() {
     return {
-      form: {
+      agendamento: {
         clientName: '',
         datetime: '',
         service: '',
         barber: '',
       },
-      times: ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'],
       services: ['Corte', 'Barba', 'Corte e Barba', 'Sombrancelha'],
       barbers: ['João', 'Pedro', 'Carlos'],
     };
   },
-  methods: {
-    async submitForm() {
-      try {
-        const data = {
-          clientName: this.form.clientName,
-          datetime: this.form.datetime,
-          service: this.form.service,
-          barber: this.form.barber 
-        }
-        console.log(data);
-        await firebase.firestore().collection("agendamentos").add(data)
-        console.log('Agendado com sucesso');
-        this.$router.push('/listar')
-      } catch (error) {
-        console.error('Erro ao realizar Agendamento' ,error);
-      }
-    },
+  async created() {
+    const doc = await firebase.firestore().collection('agendamentos').doc(this.id).get();
+    if (doc.exists) {
+      this.agendamento = doc.data();
+    } else {
+      alert('Agendamento não encontrado');
+      this.$router.push({ name: 'List' });
+    }
   },
+  methods: {
+    async atualizarAgendamento() {
+      try {
+        await firebase.firestore().collection('agendamentos').doc(this.id).update(this.agendamento);
+        alert('Agendamento atualizado com sucesso');
+        this.$router.push('/list');
+      } catch (error) {
+        console.error('Erro ao atualizar agendamento', error);
+        alert('Erro ao atualizar agendamento');
+      }
+    }
+  }
 };
 </script>
 
 <style scoped>
-.agendar {
+.editar {
   width: 300px;
   margin: 100px auto;
   padding: 30px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
   background-color: white;
 }
 

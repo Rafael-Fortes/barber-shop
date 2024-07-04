@@ -1,10 +1,6 @@
 <template>
-  <nav>
-    <router-link to="/register">Register</router-link> |
-    <router-link to="/login">Login</router-link> |
-    <router-link to="/agendar">Agendar</router-link>
-  </nav>
   <router-view/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </template>
 
 <style lang="scss">

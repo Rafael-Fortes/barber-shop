@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import Agendar from '@/views/Agendar.vue'
+import Listar from '@/views/Listar.vue'
+import Editar from '@/views/Editar.vue'
 
 
 const routes = [
@@ -25,6 +27,16 @@ const routes = [
     path: '/agendar',
     name: 'Agendar',
     component: Agendar
+  },
+  {
+    path: '/listar',
+    name: 'Listar',
+    component: Listar
+  },
+  {
+    path: '/editar',
+    name: 'Editar',
+    component: Editar
   },
 ]
 

@@ -24,10 +24,11 @@ export default {
   methods: {
     login() {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-        .then((user) => {
-          console.log(user)
+        .then(() => {
+          this.$router.push('/agendar')
         })
         .catch((error) => {
+          alert('Credenciais inválidas');
           const errorMessage = error.message;
           console.log(errorMessage)
         });

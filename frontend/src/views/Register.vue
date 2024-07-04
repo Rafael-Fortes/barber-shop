@@ -10,7 +10,6 @@
     <button @click="register">Cadastrar</button>
     <p>Já possui conta? <router-link to="/login">Login</router-link></p>
     </br>
-    <p>Já possui conta? <router-link to="/login">Clique aqui para logar</router-link></p>
   </div>
 </template>
 
@@ -45,6 +44,7 @@ export default {
         .then((user) => {
           console.log(user);
           alert("Usuário cadastrado com sucesso!");
+          this.$router.push('/login')
         })
         .catch((error) => {
           const errorMessage = error.message;
