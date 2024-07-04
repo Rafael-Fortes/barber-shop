@@ -8,12 +8,9 @@
     <span v-if="passwordError" class="error-message">{{ passwordError }}</span>
     <br>
     <button @click="register">Cadastrar</button>
-<<<<<<< HEAD
     <p>Já possui conta? <router-link to="/login">Login</router-link></p>
     </br>
-=======
     <p>Já possui conta? <router-link to="/login">Clique aqui para logar</router-link></p>
->>>>>>> 4bb4dffe897269c270558a981ab8d501b88fb9b3
   </div>
 </template>
 
