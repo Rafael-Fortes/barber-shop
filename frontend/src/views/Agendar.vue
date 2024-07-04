@@ -40,7 +40,7 @@
         </select>
       </div>
 
-      <button type="submit">Confirmar Agendamento</button>
+      <button @click="confirm()" type="submit">Confirmar Agendamento</button>
     </form>
   </div>
 </template>
@@ -48,6 +48,7 @@
 <script>
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -58,26 +59,28 @@ export default {
         barber: '',
       },
       times: ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'],
-      services: ['Corte', 'Barba', 'Corte e Barba', 'Sombrancelha'],
+      services: ['Corte', 'Barba', 'Sobrancelha'],
       barbers: ['João', 'Pedro', 'Carlos'],
     };
   },
   methods: {
-    async submitForm() {
-      try {
-        const data = {
-          clientName: this.form.clientName,
-          datetime: this.form.datetime,
-          service: this.form.service,
-          barber: this.form.barber 
-        }
-        console.log(data);
-        await firebase.firestore().collection("agendamentos").add(data)
-        console.log('Agendado com sucesso');
-        this.$router.push('/listar')
-      } catch (error) {
-        console.error('Erro ao realizar Agendamento' ,error);
-      }
+    confirm() {
+      const data = this.form.datetime;
+      const barbeiro = this.form.barber;
+
+      axios.post('http://localhost:3000/api/agendamentos', {
+        data: data,
+        barbeiro: barbeiro
+      })
+      .then(response => {
+        // Manipular a resposta da API
+        console.log("aqui: ", response.data);
+        return response.data;
+      })
+      .catch(error => {
+        // Manipular erros
+        console.error('Erro:', error);
+      });
     },
   },
 };
