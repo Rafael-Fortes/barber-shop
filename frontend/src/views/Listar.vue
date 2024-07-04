@@ -33,6 +33,7 @@
 <script>
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import axios from 'axios';
 
 export default {
   data() {
@@ -50,14 +51,15 @@ export default {
       this.$router.push({ name: 'Editar', params: { id: agendamento.id } });
     },
 
-    async excluirAgendamento(id) {
-      try {
-        await firebase.firestore().collection('agendamentos').doc(id).delete();
-        alert('Agendamento excluído com sucesso');
-        this.carregarAgendamentos();
-      } catch (error) {
-        alert('Erro ao excluir agendamento', error);
-      }
+    excluirAgendamento(id) {
+      axios.delete(`http://localhost:3000/api/agendamentos/${id}`, {
+      })
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+      });
     },
 
     async carregarAgendamentos() {
