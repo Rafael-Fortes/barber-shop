@@ -5,9 +5,15 @@
     <br>
     <input id="password" type="password" placeholder="Senha" label="Senha" v-model="password" autocomplete="new-password" required>
     <br>
+    <span v-if="passwordError" class="error-message">{{ passwordError }}</span>
+    <br>
     <button @click="register">Cadastrar</button>
+<<<<<<< HEAD
     <p>Já possui conta? <router-link to="/login">Login</router-link></p>
     </br>
+=======
+    <p>Já possui conta? <router-link to="/login">Clique aqui para logar</router-link></p>
+>>>>>>> 4bb4dffe897269c270558a981ab8d501b88fb9b3
   </div>
 </template>
 
@@ -20,18 +26,33 @@ export default {
     return {
       email: '',
       password: '',
+      passwordError: '',
     }
   },
   methods: {
     register() {
+      // Expressão regular para validar senha forte
+      const strongPasswordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
+      
+      // Verifica se a senha atende aos critérios de força
+      if (!strongPasswordRegex.test(this.password)) {
+        this.passwordError = "Senha fraca! A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.";
+        return;
+      }
+      
+      // Limpa qualquer mensagem de erro anterior
+      this.passwordError = '';
+
+      // Se a senha é considerada forte, continua com o registro
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
         .then((user) => {
-          console.log(user)
-          alert("cadastrado")
+          console.log(user);
+          alert("Usuário cadastrado com sucesso!");
         })
         .catch((error) => {
           const errorMessage = error.message;
-          console.log(errorMessage)
+          console.error(errorMessage);
+          alert(errorMessage);
         });
     },
   },
@@ -98,5 +119,12 @@ export default {
     margin: 10px 0;
     color: black;
     font-family: 'Arial', sans-serif;
+  }
+
+    .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
   }
 </style>
